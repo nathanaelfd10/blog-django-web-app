@@ -1,48 +1,39 @@
 {% extends 'blog/base.html' %}
-
 {% block content %}
 {% if post.published_date or user.is_authenticated %}
-        {% if user.is_authenticated %}
-            <div id="edit-post-button-group" class="btn-group">
-                <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
-                    {% include './icons/pencil-fill.svg' %}
-                </a>
-                <a class="btn btn-secondary" href="{% url 'post_delete_confirmation' post.pk %}">
-                Delete
-                </a>
 
-                <!-- Publish toggle -->
-                {% if post.published_date %}
-                <form id='unpublish' method="post" action="{% url 'post_unpublish' post.pk %}">
-                {% csrf_token %}
-                <a class="btn btn-secondary" href="#" onclick="document.getElementById('unpublish').submit()">
-                Unpublish
-                </a>
-                </form>
-                {% else %}
-                <form id='publish' method="post" action="{% url 'post_publish' post.pk %}">
-                {% csrf_token %}
-                <a class="btn btn-secondary" href="#" onclick="document.getElementById('publish').submit()">
-                Publish
-                </a>   
-                </form>
-                {% endif %}
-                <!-- Publish toggle ends -->
-            </div>
-         {% endif %}
-    <article class="post">
-                {% comment %} <button method="delete" type="submit">
-                    delete
-                </button> {% endcomment %}
-            {% comment %} </form> {% endcomment %}
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.text|linebreaksbr }}</p>
-    </article>
-
-    
+<div id="edit-post-button-group" class="btn-group">
+   <a class="btn btn-secondary" href="{% url 'post_delete_confirmation' post.pk %}">
+   Delete
+   </a>
+   {% if post.published_date %}
+   <form id='unpublish' method="post" action="{% url 'post_unpublish' post.pk %}">
+      {% csrf_token %}
+      <a class="btn btn-secondary" href="#" onclick="document.getElementById('unpublish').submit()">
+      Unpublish
+      </a>
+   </form>
+   {% else %}
+   <form id='publish' method="post" action="{% url 'post_publish' post.pk %}">
+      {% csrf_token %}
+      <a class="btn btn-secondary" href="#" onclick="document.getElementById('publish').submit()">
+      Publish
+      </a>   
+   </form>
+   {% endif %}
+</div>
+{% comment %} <button method="delete" type="submit">
+delete
+</button> {% endcomment %}
+{% comment %} </form> {% endcomment %}
+{% endif %}
+<article class="post">
+   <div class="date">
+      {{ post.published_date }}
+   </div>
+   <h2>{{ post.title }}</h2>
+   <p>{{ post.text|linebreaksbr }}</p>
+</article>
 {% if user.is_authenticated %}
 <a class="btn btn-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 {% endif %}
@@ -97,7 +88,6 @@
 {% empty %}
 <p>No comments here yet.</p>
 {% endfor %}
-
 {% else %}
 <h1> You have no access to this post </h1>
 {% endif %}

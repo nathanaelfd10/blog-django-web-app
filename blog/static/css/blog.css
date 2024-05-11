@@ -1,13 +1,13 @@
 h1 a, h2 a {
-    color: #C25100;
+    color: #1A1819;
 }
 
 body {
-    padding-left: 15px;
+    padding-left: 0;
 }
 
 .page-header {
-    background-color: #C25100;
+    background-color: #1A1819;
     margin-top: 0;
     margin-bottom: 40px;
     padding: 20px 20px 20px 40px;
@@ -18,7 +18,7 @@ body {
 .page-header h1 a:visited,
 .page-header h1 a:active {
     color: #ffffff;
-    font-size: 36pt;
+    font-size: 20pt;
     text-decoration: none;
 }
 
@@ -47,7 +47,7 @@ h4 {
 .top-menu:visited {
     color: #ffffff;
     float: right;
-    font-size: 26pt;
+    font-size: 20px;
     margin-right: 20px;
 }
 
@@ -67,16 +67,27 @@ h4 {
 
 .btn-secondary,
 .btn-secondary:visited {
-    color: #C25100;
+    color: #1A1819;
     background: none;
-    border-color: #C25100;
+    border-color: #1A1819;
 }
 
 .btn-secondary:hover {
     color: #ffffff;
-    background-color: #C25100;
+    background-color: #1A1819;
 }
 
 .comment {
     margin: 20px 0px 20px 20px;
+}
+
+.upvote,
+.downvote {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.edit-post-button-group {
+    float: right;
 }

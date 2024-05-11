@@ -20,4 +20,5 @@ urlpatterns = [
     path('post/<int:pk>/comment/', blog_views.add_comment_to_post, name='add_comment_to_post'),
     path('comment/<int:pk>/approve/', blog_views.comment_approve, name='comment_approve'),
     path('comment/<int:pk>/remove/', blog_views.comment_remove, name='comment_remove'),
+    path('comment/<int:pk>/vote/', blog_views.comment_vote, name='comment_vote')
 ]
