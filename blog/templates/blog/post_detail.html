@@ -1,0 +1,76 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+{% if post.published_date or user.is_authenticated %}
+    <article class="post">
+            <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+                {% include './icons/pencil-fill.svg' %}
+            </a>
+                <a class="btn btn-secondary" href="{% url 'post_delete_confirmation' post.pk %}">
+                    Delete
+                </a>
+                {% if post.published_date %}
+                    <form id='unpublish' method="post" action="{% url 'post_unpublish' post.pk %}">
+                        {% csrf_token %}
+                        <a class="btn btn-secondary" href="#" onclick="document.getElementById('unpublish').submit()">
+                            Unpublish
+                        </a>
+                    </form>
+                {% else %}
+                    <form id='publish' method="post" action="{% url 'post_publish' post.pk %}">
+                        {% csrf_token %}
+                        <a class="btn btn-secondary" href="#" onclick="document.getElementById('publish').submit()">
+                            Publish
+                        </a>   
+                    </form>
+                {% endif %}
+                {% comment %} <button method="delete" type="submit">
+                    delete
+                </button> {% endcomment %}
+            </form>
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.text|linebreaksbr }}</p>
+    </article>
+
+    <a class="btn btn-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+    {% for comment in post.comments.all %}
+        {% if user.is_authenticated or comment.approved_comment %}
+            <div class="comment">
+                <div class="date">
+                    {{ comment.created_date }}
+                
+                    {% if user.is_authenticated %}
+                        <div class="btn-group">
+                            {% if not comment.approved_comment %}
+                                <form id="comment-approve-{{ comment.pk }}" method="post" action="{% url 'comment_approve' pk=comment.pk %}">
+                                    {% csrf_token %}
+                                    <a class="btn btn-secondary btn-sm" href="#" onclick="document.getElementById('comment-approve-{{ comment.pk }}').submit()">
+                                        {% include './icons/hand-thumbs-up.svg' %}
+                                        Approve
+                                    </a>
+                                </form>
+                            {% endif %}
+                            <form id="comment-remove-{{ comment.pk }}" method="post" action="{% url 'comment_remove' pk=comment.pk %}">
+                                {% csrf_token %}
+                                <a class="btn btn-secondary btn-sm" href="#" onclick="document.getElementById('comment-remove-{{ comment.pk }}').submit()">
+                                    {% include './icons/trash.svg' %}
+                                    Remove
+                                </a>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+                <strong>{{ comment.author }}</strong>
+                <p>{{ comment.text|linebreaksbr }}</p>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>No comments here yet.</p>
+    {% endfor %}
+{% else %}
+<h1> You have no access to this post </h1>
+{% endif %}
+{% endblock %}
