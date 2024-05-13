@@ -4,7 +4,20 @@
     <h2>New/edit post</h2>
     <form method="POST" class="post-form">
         {% csrf_token %}
+        {% comment %} {{ form.as_p }} {% endcomment %}
         {{ form.as_p }}
+        {% comment %} {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}~
+                {{ field.label_tag }} {{ field }}
+                {% if field.help_text %}
+                <p class="help" id="{{ field.auto_id }}_helptext">
+                    {{ field.help_text|safe }}
+                </p>
+                {% endif %}
+            </div>
+        {% endfor %} {% endcomment %}
+        {% comment %} {{ form.errors }} {% endcomment %}
 
         {% if user.is_authenticated %}
             {% comment %} {% for field in form %}

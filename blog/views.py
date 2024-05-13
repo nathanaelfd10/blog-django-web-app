@@ -14,7 +14,8 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    sorted_comments = sorted(post.comments.all(), key=lambda x: x.get_vote_score(), reverse=True)
+    return render(request, 'blog/post_detail.html', {'post': post, 'sorted_comments': sorted_comments})
 
 @login_required
 @csrf_protect

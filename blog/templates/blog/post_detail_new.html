@@ -1,7 +1,9 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% if post.published_date or user.is_authenticated %}
-
+<a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+{% include './icons/pencil-fill.svg' %}
+</a>
 <div id="edit-post-button-group" class="btn-group">
    <a class="btn btn-secondary" href="{% url 'post_delete_confirmation' post.pk %}">
    Delete

@@ -46,7 +46,7 @@
 {% if user.is_authenticated %}
 <a class="btn btn-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 {% endif %}
-{% for comment in post.comments.all %}
+{% for comment in sorted_comments %}
 {% if user.is_authenticated or comment.approved_comment %}
 <div class="comment">
    <div class="date">
@@ -89,7 +89,7 @@
          {% include './icons/hand-thumbs-down.svg' %}
          </button> 
       </form>
-      <a>{{ comment.get_vote }}</a>
+      <a>{{ comment.get_vote_score }}</a>
    </div>
    {% endif %}
 </div>

@@ -49,6 +49,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
+    # class Meta:
+    #     ordering = ['-published_date']
+    
 class Vote(models.Model):
     comment = models.ForeignKey('blog.Comment', on_delete=models.CASCADE, related_name='votes')
     voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -71,10 +74,11 @@ class Comment(models.Model):
     created_date = models.DateTimeField(default=timezone.now())
     approved_comment = models.BooleanField(default=False)
 
-    def get_vote(self):
+    def get_vote_score(self):
         vote_count = self.votes.count()
         downvote_count = self.votes.filter(is_upvote=False).count()
-        upvote_count = vote_count - downvote_count       
+        upvote_count = vote_count - downvote_count      
+        result = upvote_count - downvote_count 
 
         # print(self.author)
         # print(self.text)
@@ -83,7 +87,7 @@ class Comment(models.Model):
         # print("Result: " + str(upvote_count - downvote_count))
         # print("=============")
 
-        return str(upvote_count - downvote_count)
+        return str(result)
 
     def approve(self):
         self.approved_comment = True
